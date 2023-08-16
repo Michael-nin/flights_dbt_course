@@ -2,8 +2,8 @@
 
 with flights_duration_table as
 		(select  *
-			   ,actual_arrival - actual_departure as flight_duration
-			   ,scheduled_arrival - scheduled_departure as flight_duration_expected
+			   ,round(extract(epoch from (actual_arrival - actual_departure))/3600,2) as flight_duration
+			   ,round(extract(epoch from (scheduled_arrival - scheduled_departure))/3600,2) as flight_duration_expected
 			   ,'{{ run_started_at.strftime ("%Y-%m-%d %H:%M:%S")}}'::timestamp as dbt_time
 		 from stg.flights)
 select   *
